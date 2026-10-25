@@ -6,6 +6,8 @@ import pandas as pd
 
 from utils import FIG, FIN_TEST, FIN_TRAIN, INICIO_TEST, datos_limpios, guardar_tabla, serie_diaria
 
+DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+
 # Bank holidays de Inglaterra y Gales (gov.uk) en el periodo de los datos
 FERIADOS = {
     "2010-12-27": "Christmas Day (sustituto)",
@@ -33,7 +35,7 @@ def main():
     # 2.2 días sin transacciones
     faltan = s_todo[s_todo.isna()].index
     tabla = pd.DataFrame({"fecha": faltan.strftime("%Y-%m-%d"),
-                          "día": faltan.day_name(locale=None)})
+                          "día": [DIAS[d] for d in faltan.day_of_week]})
     tabla["clase"] = ["sábado" if d.day_of_week == 5 else
                       FERIADOS.get(d.strftime("%Y-%m-%d"), "cierre de fin de año")
                       for d in faltan]

@@ -52,6 +52,8 @@ def guardar_tabla(df, nombre, decimales=3, index=True):
     """Guarda la tabla como .csv y como .tex (tabular simple con booktabs)."""
     df.to_csv(TAB / f"{nombre}.csv", index=index)
     d = df.reset_index() if index else df.copy()
+    if index and df.index.name is None and df.index.nlevels == 1:
+        d = d.rename(columns={d.columns[0]: ""})
 
     def fmt(v):
         if isinstance(v, (float, np.floating)):
@@ -64,8 +66,18 @@ def guardar_tabla(df, nombre, decimales=3, index=True):
             return f"{v:,}"
         return str(v)
 
-    esc = lambda s: str(s).replace("_", r"\_").replace("%", r"\%").replace("&", r"\&").replace("#", r"\#")
-    lineas = [r"\begin{tabular}{" + "l" + "r" * (d.shape[1] - 1) + "}", r"\toprule",
+    def esc(s):
+        for a, b in (("\\", r"\textbackslash{}"), ("_", r"\_"), ("%", r"\%"), ("&", r"\&"), ("#", r"\#"),
+                     ("^", r"\textasciicircum{}"), ("$", r"\$")):
+            s = str(s).replace(a, b)
+        return s
+
+    for c in d.columns:
+        col = d[c]
+        if col.dtype.kind == "f" and col.notna().all() and (col == col.round()).all():
+            d[c] = col.astype(int)
+    alin = "".join("r" if d[c].dtype.kind in "iuf" else "l" for c in d.columns)
+    lineas = [r"\begin{tabular}{" + alin + "}", r"\toprule",
               " & ".join(esc(c) for c in d.columns) + r" \\", r"\midrule"]
     for _, fila in d.iterrows():
         lineas.append(" & ".join(esc(fmt(v)) for v in fila) + r" \\")

@@ -70,7 +70,7 @@ def main():
     auc = pd.DataFrame({"AUC": {"R (invertida)": roc_auc_score(t["compra"], -t["R"]),
                                 "F": roc_auc_score(t["compra"], t["F"]),
                                 "M": roc_auc_score(t["compra"], t["M"]),
-                                "R_s + F_s + M_s": roc_auc_score(t["compra"], t["suma"])}})
+                                "suma de puntajes": roc_auc_score(t["compra"], t["suma"])}})
     guardar_tabla(auc, "p6_auc", decimales=3)
     print("tasa base de compra:", t["compra"].mean().round(3)); print(auc.round(3).to_string())
 

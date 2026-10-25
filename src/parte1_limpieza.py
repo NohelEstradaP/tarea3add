@@ -60,8 +60,8 @@ def main():
     top = df.reindex(df["Monto"].abs().sort_values(ascending=False).index).head(6)
     top = top[["InvoiceNo", "StockCode", "Description", "Quantity", "UnitPrice", "Monto",
                "InvoiceDate", "CustomerID"]].copy()
-    top["sigue en limpio"] = [((limpio["InvoiceNo"] == r.InvoiceNo) & (limpio["StockCode"] == r.StockCode)).any()
-                              for r in top.itertuples()]
+    top["sigue en limpio"] = ["sí" if ((limpio["InvoiceNo"] == r.InvoiceNo) & (limpio["StockCode"] == r.StockCode)).any()
+                              else "no" for r in top.itertuples()]
     top["InvoiceDate"] = top["InvoiceDate"].dt.strftime("%Y-%m-%d %H:%M")
     top["Description"] = top["Description"].str.slice(0, 26)
     guardar_tabla(top, "p1_top6", decimales=2, index=False)
