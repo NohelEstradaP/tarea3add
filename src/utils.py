@@ -57,6 +57,8 @@ def guardar_tabla(df, nombre, decimales=3, index=True):
         if isinstance(v, (float, np.floating)):
             if np.isnan(v):
                 return "--"
+            if float(v).is_integer() and abs(v) >= 10:
+                return f"{v:,.0f}"
             return f"{v:,.{decimales}f}"
         if isinstance(v, (int, np.integer)):
             return f"{v:,}"

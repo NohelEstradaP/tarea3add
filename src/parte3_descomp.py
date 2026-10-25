@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from utils import FIG, FIN_TRAIN, acf, guardar_tabla, ljung_box, serie_diaria
+from utils import FIG, FIN_TRAIN, TAB, acf, guardar_tabla, ljung_box, serie_diaria
 
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 
@@ -91,7 +91,7 @@ def main():
     tq = pd.DataFrame(filas).set_index("m")
     guardar_tabla(tq, "p3_ljungbox", decimales=4)
     print(tq.to_string())
-    pd.DataFrame({"k": np.arange(1, 22), "r_k": r}).to_csv("../tablas/p3_acf.csv", index=False)
+    pd.DataFrame({"k": np.arange(1, 22), "r_k": r}).to_csv(TAB / "p3_acf.csv", index=False)
 
 
 if __name__ == "__main__":

@@ -8,5 +8,5 @@ Trabajo en progreso. Cada parte se corre por separado (los datos van en `data/On
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python src/parte2_calendario.py
+python src/main.py
 ```
