@@ -1,0 +1,9 @@
+data/*.xlsx
+data/*.pkl
+__pycache__/
+.venv/
+*.aux
+*.log
+*.out
+*.toc
+.DS_Store
