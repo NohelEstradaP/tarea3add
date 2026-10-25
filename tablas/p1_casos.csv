@@ -1,0 +1,9 @@
+,filas,monto
+(a) duplicados exactos,5268,21740.98
+(b) prefijo C,9288,-896812.49
+(b) prefijo A,3,-11062.06
+(c) StockCode sin 5 dígitos,2995,-44562.496
+(d) precio = 0,2515,0.0
+(d) precio < 0,2,-22124.12
+(e) cantidad < 0 sin C,1336,0.0
+(f) sin CustomerID,135080,1447682.12

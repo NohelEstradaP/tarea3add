@@ -1,0 +1,8 @@
+orden,regla,filas,monto,monto_abs
+1,duplicados exactos,5268,21740.98,27406.5
+2,factura con prefijo A,3,-11062.06,33186.18
+3,venta anulada con Manual,82,-3931.2100000000028,128573.18999999999
+4,código que no es producto,2861,8685.671000000002,712338.411
+5,cantidad negativa sin cancelación,1336,0.0,0.0
+6,precio <= 0,1157,0.0,0.0
+total,,10707,15433.381,901504.281

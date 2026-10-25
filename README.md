@@ -3,10 +3,10 @@
 Análisis y Ciencia de Datos, Universidad del Istmo.
 Didvin Nohel Estrada Pineda (14092).
 
-Trabajo en progreso. Por ahora está la Parte 0 (procesos simulados):
+Trabajo en progreso. Cada parte se corre por separado (los datos van en `data/Online Retail.xlsx`), por ejemplo:
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python src/parte0_simulacion.py
+python src/parte1_limpieza.py
 ```
