@@ -70,3 +70,35 @@ def guardar_tabla(df, nombre, decimales=3, index=True):
     lineas += [r"\bottomrule", r"\end{tabular}"]
     (TAB / f"{nombre}.tex").write_text("\n".join(lineas) + "\n")
     return df
+
+
+# Partición de la Parte 2 en adelante
+FIN_TRAIN = pd.Timestamp("2011-09-30")
+INICIO_TEST = pd.Timestamp("2011-10-03")
+FIN_TEST = pd.Timestamp("2011-12-08")
+
+
+def datos_limpios(con_cliente=False):
+    """Carga el .xlsx, aplica limpiar() y guarda una copia en data/ para no releer el Excel."""
+    from limpieza import cargar, limpiar
+    cache = ROOT / "data" / ("limpio_cliente.pkl" if con_cliente else "limpio.pkl")
+    if cache.exists() and cache.stat().st_mtime > DATA.stat().st_mtime:
+        return pd.read_pickle(cache)
+    df = limpiar(cargar(DATA), con_cliente=con_cliente)
+    df.to_pickle(cache)
+    return df
+
+
+def serie_diaria(df=None, incluir_ultimo=False):
+    """Venta neta diaria sobre el calendario completo. Los días sin transacciones quedan NaN."""
+    df = datos_limpios() if df is None else df
+    s = df.groupby(df["InvoiceDate"].dt.normalize())["Monto"].sum()
+    s = s.reindex(pd.date_range(s.index.min(), s.index.max(), freq="D"))
+    s.index.name = "fecha"
+    s.name = "venta"
+    return s if incluir_ultimo else s.iloc[:-1]
+
+
+def dias_abiertos(s):
+    """La serie solo con días abiertos (una fila por día, sin calendario)."""
+    return s.dropna()
